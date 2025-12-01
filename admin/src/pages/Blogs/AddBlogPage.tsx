@@ -679,12 +679,10 @@ export default function AddBlogPage(): ReactElement {
             />
 
             {/* Tool Blog Cards */}
-            {blogData.blogToolBlogCards && blogData.blogToolBlogCards.length > 0 && (
-              <ToolBlogCard
-                initialCards={blogData.blogToolBlogCards}
-                onCardsChange={handleToolBlogCardsChange}
-              />
-            )}
+            <ToolBlogCard
+              initialCards={blogData.blogToolBlogCards || []}
+              onCardsChange={handleToolBlogCardsChange}
+            />
 
             {/* Similar Posts Section */}
             <SimilarBlogs

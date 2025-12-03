@@ -23,7 +23,13 @@ export default function ToolBlogCard({ onCardsChange, initialCards }: Props): Re
         sectionNumber: card.sectionNumber ?? index + 1,
       }));
     }
-    return [];
+    return [{
+      id: ++idCounter,
+      sectionNumber: 1,
+      blogTitle: "",
+      blogBody: "",
+      dealsMentioned: [],
+    }];
   });
 
   const onCardsChangeRef = useRef(onCardsChange);
@@ -58,13 +64,33 @@ export default function ToolBlogCard({ onCardsChange, initialCards }: Props): Re
       setCards(newCards);
       hasInitializedRef.current = true;
     } else if (initialCards && initialCards.length === 0) {
-      // If initialCards is explicitly empty array, clear cards
-      setCards([]);
+      // If initialCards is explicitly empty array, show default card
+      setCards([{
+        id: ++idCounter,
+        sectionNumber: 1,
+        blogTitle: "",
+        blogBody: "",
+        dealsMentioned: [],
+      }]);
       hasInitializedRef.current = true;
     } else if (!initialCards && hasInitializedRef.current) {
-      // Reset flag if initialCards becomes undefined (e.g., new form)
       hasInitializedRef.current = false;
-      setCards([]);
+      setCards([{
+        id: ++idCounter,
+        sectionNumber: 1,
+        blogTitle: "",
+        blogBody: "",
+        dealsMentioned: [],
+      }]);
+    } else if (!initialCards && !hasInitializedRef.current) {
+      setCards([{
+        id: ++idCounter,
+        sectionNumber: 1,
+        blogTitle: "",
+        blogBody: "",
+        dealsMentioned: [],
+      }]);
+      hasInitializedRef.current = true;
     }
     
     // Reset sync flag after state update
@@ -147,12 +173,7 @@ export default function ToolBlogCard({ onCardsChange, initialCards }: Props): Re
         </div>
       </div>
 
-      {cards.length === 0 ? (
-        <div className="text-zinc-400 text-sm text-center py-8">
-          No tool blog cards yet. Click "Add More Tool Blog Card" to add one.
-        </div>
-      ) : (
-        cards.map((card) => (
+      {cards.map((card) => (
         <div
           key={card.id}
           className="Frame2147205990 self-stretch bg-zinc-800 rounded-3xl   inline-flex flex-col justify-start items-start gap-6"
@@ -289,8 +310,7 @@ export default function ToolBlogCard({ onCardsChange, initialCards }: Props): Re
             />
           </div>
         </div>
-        ))
-      )}
+      ))}
     </div>
   );
 }
